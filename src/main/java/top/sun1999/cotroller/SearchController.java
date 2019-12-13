@@ -12,6 +12,7 @@ import top.sun1999.dto.PageInfoDTO;
 import top.sun1999.model.ProvRoad;
 import top.sun1999.service.ProvRoadService;
 
+import javax.jws.WebParam;
 import java.util.List;
 
 /**
@@ -22,40 +23,79 @@ public class SearchController {
     @Autowired
     ProvRoadService provRoadService;
 
-    @GetMapping({"/search/{target}", "/search/{target}/{page}"})
-    public String search(@PathVariable(value = "target") String target,
-                         @PathVariable(value = "page", required = false) Integer pageNum,
-                         @RequestParam(value = "word") String word,
+    /**
+     * 通过property跳转到搜索页面
+     *
+     * @param property 搜索列名
+     * @param model
+     * @return
+     */
+    @GetMapping("/search/{property}")
+    public String search(@PathVariable(value = "property") String property,
                          Model model) {
-        if (pageNum != null) {
-            pageNum = 1;
+        if (!isRightProperty(property)) {
+            return "redirect:/info/";
         }
-        List<ProvRoad> provRoadList = provRoadService.findPageByProperty(target, word, pageNum, 15);
-        PageInfoDTO pageInfoDTO = PageInfoDTO.of(PageInfo.of(provRoadList));
-        model.addAttribute("provRoadList", provRoadList);
-        model.addAttribute("pageInfo", pageInfoDTO);
-        model.addAttribute("target", target);
+        model.addAttribute("target", "search/" + property);
         return "search";
     }
 
-    @PostMapping("search/{target}")
-    public String doSearch(@PathVariable(value = "target") String target,
+    /**
+     * 处理搜索页请求
+     *
+     * @param property 列
+     * @param word     搜索字
+     * @return
+     */
+    @PostMapping({"search/{property}/{page}", "search/{property}"})
+    public String doSearch(@PathVariable(value = "property") String property,
                            @RequestParam(value = "word") String word) {
-        if (word == null || "".equals(word.trim())) {
+        if (!isRightProperty(property)) {
             return "redirect:/info/";
         }
-        String[] targets = {"ref", "name", "origin", "destination", "distance"};
-        boolean isRightTarget = false;
-        for (String s : targets) {
-            if (s.equals(target)) {
-                isRightTarget = true;
+        if (word == null || word.trim().equals("")) {
+            return "redirect:/search/" + property;
+        }
+
+        return "redirect:/search_info/1?property=" + property + "&word=" + word;
+    }
+
+    /**
+     * 查询结果页面
+     *
+     * @param pageNum  页码
+     * @param property 查询种类
+     * @param word     查询信息
+     * @return
+     */
+    @GetMapping("search_info/{page}")
+    public String searchInfo(@PathVariable(value = "page") Integer pageNum,
+                             @RequestParam(value = "property") String property,
+                             @RequestParam(value = "word") String word,
+                             Model model) {
+        List<ProvRoad> provRoadList = provRoadService.findPageByProperty(property, word, pageNum, 15);
+        PageInfoDTO pageInfoDTO = PageInfoDTO.of(PageInfo.of(provRoadList));
+        model.addAttribute("provRoadList", provRoadList);
+        model.addAttribute("pageInfo", pageInfoDTO);
+        model.addAttribute("target", "search/ " + property);
+        return "search_info";
+    }
+
+    private static String[] properties = {"ref", "name", "origin", "destination", "distance"};
+
+    /**
+     * 验证列名参数是否正确
+     * @param property
+     * @return
+     */
+    private static boolean isRightProperty(String property) {
+        boolean isRightProperty = false;
+        for (String s : properties) {
+            if (s.equals(property)) {
+                isRightProperty = true;
                 break;
             }
         }
-        if (isRightTarget) {
-            return "/search/" + target + "?word= " + word;
-        } else {
-            return "redirect:/info/";
-        }
+        return isRightProperty;
     }
 }
