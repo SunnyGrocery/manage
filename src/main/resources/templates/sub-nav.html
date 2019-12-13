@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head>
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title></title>
+</head>
+<body>
+<div th:fragment="head">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid head-brand">
+            <div class="navbar-header ">
+                <a class="navbar-brand" href="#">省道管理系统</a>
+            </div>
+        </div>
+
+    </nav>
+</div>
+<!--页码栏-->
+<div th:fragment="pages">
+    <nav th:if="${pageInfo.getPageHelpInfo().getPages()>1}" class="page-nav" aria-label="Page navigation">
+        <ul class="pagination">
+            <li th:if="${pageInfo.showFirst}">
+                <a th:href="${'/' + target + '/' + 1}" aria-label="First">
+                    <span aria-hidden="true">&lt;&lt;</span>
+                </a>
+            </li>
+            <li th:if="${pageInfo.showPre}">
+                <a th:href="${'/' + target + '/' + pageInfo.getPageHelpInfo().getPrePage()}" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            <li th:each="page : ${pageInfo.pages}" th:classappend="${page==pageInfo.currentPage}?'active'">
+                <a th:href="${'/' + target + '/' + page}" th:text="${page}"></a>
+            </li>
+
+            <li th:if="${pageInfo.showNext}">
+                <a th:href="${'/' + target + '/' + pageInfo.pageHelpInfo.getNextPage()}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:if="${pageInfo.showEnd}">
+                <a th:href="${'/' + target + '/' + pageInfo.pageHelpInfo.getPages()}" aria-label="End">
+                    <span aria-hidden="true">&gt;&gt;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+
+</html>

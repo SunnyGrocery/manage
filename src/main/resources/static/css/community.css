@@ -1,0 +1,15 @@
+.page-nav {
+    font-family: candara, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", sans-serif, -apple-system !important;
+}
+.my-table {
+    margin-top: 10px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.head-brand{
+    margin-left: 90px;
+}
+.head-search{
+    margin-right: 90px;
+}
+

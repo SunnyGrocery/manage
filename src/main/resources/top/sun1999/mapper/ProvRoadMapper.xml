@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sun1999.mapper.ProvRoadMapper">
+    <!--    List<ProvRoad> selectAll();-->
+    <select id="selectAll" resultType="ProvRoad">
+        select *
+        from PROV_ROAD
+    </select>
+    <!--    ProvRoad selectById(int id);-->
+    <select id="selectById" resultType="ProvRoad">
+        select *
+        from PROV_ROAD
+        where ID = #{id}
+    </select>
+    <!--    List<ProvRoad> selectLikeRef(String ref);-->
+    <select id="selectLikeRef" resultType="ProvRoad">
+        select *
+        from PROV_ROAD
+        where REF like "%"#{ref}"%"
+    </select>
+    <!--    List<ProvRoad> selectLikeName(String name);-->
+    <select id="selectLikeName" resultType="ProvRoad">
+        select *
+        from PROV_ROAD
+        where NAME like "%"#{name}"%"
+    </select>
+    <!--    List<ProvRoad> selectLikeOrigin(String origin);-->
+    <select id="selectLikeOrigin" resultType="ProvRoad">
+        select *
+        from PROV_ROAD
+        where ORIGIN like "%"#{origin}"%"
+    </select>
+    <!--    List<ProvRoad> selectLikeDestination(String destination);-->
+    <select id="selectLikeDestination" resultType="ProvRoad">
+        select *
+        from PROV_ROAD
+        where DESTINATION like "%"#{destination}"%"
+    </select>
+
+    <!--    void updateById(ProvRoad provRoad);-->
+    <update id="update">
+        update PROV_ROAD
+        <set>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="ref!=null and ref!=''">
+                ref = #{ref},
+            </if>
+            <if test="origin!=null and origin!=''">
+                origin = #{origin},
+            </if>
+            <if test="destination!=null and destination!=''">
+                destination = #{destination},
+            </if>
+            <if test="destination!=null and destination!=''">
+                destination = #{destination},
+            </if>
+            <if test="distance!=null and distance!=''">
+                distance = #{distance},
+            </if>
+            id = #{id}
+        </set>
+        where id = #{id}
+    </update>
+    <!--    void insert(ProvRoad provRoad);-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into PROV_ROAD(
+        <if test="name!=null and name!=''">
+            NAME,
+        </if>
+        <if test="ref!=null and ref!=''">
+            REF,
+        </if>
+        <if test="origin!=null and origin!=''">
+            ORIGIN,
+        </if>
+        <if test="destination!=null and destination!=''">
+            DESTINATION,
+        </if>
+        <if test="distance!=null and distance!=''">
+            DISTANCE
+        </if>
+        )
+        values (
+        <if test="name!=null and name!=''">
+            #{name},
+        </if>
+        <if test="ref!=null and ref!=''">
+            #{ref},
+        </if>
+        <if test="origin!=null and origin!=''">
+            #{origin},
+        </if>
+        <if test="destination!=null and destination!=''">
+            #{destination},
+        </if>
+        <if test="distance!=null and distance!=''">
+            #{distance}
+        </if>
+        )
+    </insert>
+    <!--    void deleteById(int id);-->
+    <delete id="deleteById">
+        delete
+        from PROV_ROAD
+        where id = #{id}
+    </delete>
+
+
+</mapper>

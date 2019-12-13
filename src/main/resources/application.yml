@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:~/db/database
+    username: sa
+    password: SA
+    driver-class-name: org.h2.Driver
+logging:
+  level:
+    com.sust.community.mapper: debug
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    lazy-loading-enabled: true
+  type-aliases-package: top.sun1999.model
