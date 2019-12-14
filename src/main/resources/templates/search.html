@@ -4,6 +4,7 @@
     <title>省道管理系统</title>
     <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/my.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/css/community.css"/>
@@ -12,12 +13,12 @@
 <body>
 <!--导航-->
 <div th:replace="~{sub-nav::head}"></div>
-<div    >
-    <div class="col-xs-0 col-sm-2 col-md-3 col-lg-4  ">
+<div>
+    <div class="col-xs-2 col-sm-2 col-md-3 col-lg-4  ">
     </div>
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4 input-group">
-        <div class="search-text" >
-            <span>搜索 </span>
+    <div class="col-xs-8 col-sm-8 col-md-6 col-lg-4 input-group">
+        <div class="search-text">
+            <span>搜索</span>
             <strong th:if="${'search/ref'== target }" th:text="路线编号"></strong>
             <strong th:if="${'search/name'== target }" th:text="路线简称"></strong>
             <strong th:if="${'search/origin'== target }" th:text="起始点"></strong>
@@ -26,13 +27,13 @@
         </div>
 
         <form th:action="${'/' + target}" method="post">
-            <input type="text"  name="word" class="form-control" placeholder="Search for...">
+            <input type="text" name="word" class="form-control" placeholder="Search for...">
 
             <input type="submit" class="btn btn-default search-btn " value="Go!">
         </form>
 
     </div>
-    <div class="col-xs-0 col-sm-2 col-md-3 col-lg-4  ">
+    <div class="col-xs-2 col-sm-2 col-md-3 col-lg-4  ">
     </div>
 
 </div>

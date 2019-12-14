@@ -73,7 +73,7 @@ public class SearchController {
                              @RequestParam(value = "property") String property,
                              @RequestParam(value = "word") String word,
                              Model model) throws UnsupportedEncodingException {
-        List<ProvRoad> provRoadList = provRoadService.findPageByProperty(property, word, pageNum, 15);
+        List<ProvRoad> provRoadList = provRoadService.findPageByProperty(property, word, pageNum, 14);
         PageInfoDTO pageInfoDTO = PageInfoDTO.of(PageInfo.of(provRoadList));
         model.addAttribute("provRoadList", provRoadList);
         model.addAttribute("pageInfo", pageInfoDTO);

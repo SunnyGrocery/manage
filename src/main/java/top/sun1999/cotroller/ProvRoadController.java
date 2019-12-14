@@ -25,7 +25,7 @@ public class ProvRoadController {
 
     private static String[] operateFlags = {"delete", "modify", "add"};
 
-    @GetMapping(value = {"/info", "/info/{page}"})
+    @GetMapping(value = {"/", "/info", "/info/{page}"})
     public String index(@PathVariable(value = "page", required = false) Integer pageNum,
                         @RequestParam(value = "operateFlag", required = false) String operateFlag,
                         @RequestParam(value = "status", required = false) Boolean status,
@@ -33,7 +33,7 @@ public class ProvRoadController {
         if (pageNum == null) {
             pageNum = 1;
         }
-        List<ProvRoad> provRoadList = provRoadService.findAllPage(pageNum, 15);
+        List<ProvRoad> provRoadList = provRoadService.findAllPage(pageNum, 14);
         PageInfoDTO pageInfoDTO = PageInfoDTO.of(PageInfo.of(provRoadList));
         model.addAttribute("provRoadList", provRoadList);
         model.addAttribute("pageInfo", pageInfoDTO);
@@ -49,7 +49,6 @@ public class ProvRoadController {
                 }
             }
         }
-
         return "info";
     }
 
@@ -85,11 +84,11 @@ public class ProvRoadController {
     @PostMapping(value = "/add")
     public String add(ProvRoad provRoad) {
         try {
-            provRoadService.modify(provRoad);
+            provRoadService.add(provRoad);
         } catch (RuntimeException e) {
-            return "redirect:/info/1?operateFlag=modify&status=false";
+            return "redirect:/info/1?operateFlag=add&status=false";
         }
-        return "redirect:/info/1?operateFlag=modify&status=true";
+        return "redirect:/info/1?operateFlag=add&status=true";
     }
 
 }
