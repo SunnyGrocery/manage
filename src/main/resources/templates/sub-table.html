@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head>
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title></title>
+</head>
+<body>
+<div th:fragment="table">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>
+                路线编号
+                <a class="table-search" href="/search/ref">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </a>
+            </th>
+            <th>路线简称
+                <a class="table-search" href="/search/name">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </a>
+            </th>
+            <th>起始点
+                <a class="table-search" href="/search/origin">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </a>
+            </th>
+            <th>终点
+                <a class="table-search" href="/search/destination">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </a>
+            </th>
+            <th>里程</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each=" item : ${provRoadList}">
+            <th th:text="${item.id}" scope="row"></th>
+            <td th:text="${item.ref}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.origin}"></td>
+            <td th:text="${item.destination}"></td>
+            <td th:text="${item.distance+' km'}"></td>
+            <td>
+                <!--操作-->
+                <div>
+                    <script>
+                        var provRoad = {
+                            id: -1,
+                            ref: "",
+                            name: "",
+                            origin: "",
+                            destination: "",
+                            distance: 1
+                        };
+
+                        function modifyById(id, ref, name, origin, destination, distance) {
+                            document.getElementById("provRoadId").value = id;
+                            document.getElementById("provRoadRef").value = ref;
+                            document.getElementById("provRoadName").value = name;
+                            document.getElementById("provRoadOrigin").value = origin;
+                            document.getElementById("provRoadDestination").value = destination;
+                            document.getElementById("provRoadDistance").value = distance;
+                        }
+                    </script>
+                    <button th:onclick="modifyById([[${item.id}]],[[${item.ref}]],[[${item.name}]],[[${item.origin}]],[[${item.destination}]],[[${item.distance}]])"
+                            type="button"
+                            class="btn btn-link my-btn-link"
+                            data-toggle="modal" data-target="#modifyModal">
+                        编辑
+                    </button>
+                    &nbsp;&nbsp;
+                    <script>
+                        var deleteTarget = -1;
+
+                        function deleteById(id) {
+                            deleteTarget = id;
+                        }
+                    </script>
+                    <button th:onclick="'deleteById('+ ${item.id} +')'" type="button"
+                            class="btn btn-link my-btn-link"
+                            data-toggle="modal" data-target="#deleteModal">
+                        删除
+                    </button>
+                </div>
+            </td>
+        </tr>
+        <!--编辑弹框-->
+        <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">编辑</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="provRoadId">ID</label>
+                                <input name="id" type="text" class="form-control" id="provRoadId" placeholder="不能为空...">
+                            </div>
+                            <div class="form-group">
+                                <label for="provRoadRef">路线编号</label>
+                                <input name="ref" type="text" class="form-control" id="provRoadRef"
+                                       placeholder="不能为空...">
+                            </div>
+                            <div class="form-group">
+                                <label for="provRoadName">路线简称</label>
+                                <input name="name" type="text" class="form-control" id="provRoadName"
+                                       placeholder="不能为空...">
+                            </div>
+                            <div class="form-group">
+                                <label for="provRoadOrigin">起始点</label>
+                                <input name="origin" type="text" class="form-control" id="provRoadOrigin"
+                                       placeholder="不能为空...">
+                            </div>
+                            <div class="form-group">
+                                <label for="provRoadDestination">终点</label>
+                                <input name="destination" type="text" class="form-control" id="provRoadDestination"
+                                       placeholder="不能为空...">
+                            </div>
+                            <div class="form-group">
+                                <label for="provRoadDistance">里程(km)</label>
+                                <input name="distance" type="text" class="form-control" id="provRoadDistance"
+                                       placeholder="不能为空...">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <script type="text/javascript">
+                            function getPageNum() {
+                                var pageString = window.location.pathname.split("/");
+                                var pageNum = 1;
+                                if (pageString.length > 2) {
+                                    pageNum = pageString[pageString.length - 1];
+                                }
+                                return pageNum;
+                            }
+
+                            function jumpModify() {
+                                updateProvRoad();
+                                post('/modify', {
+                                    id: provRoad.id,
+                                    ref: provRoad.ref,
+                                    name: provRoad.name,
+                                    origin: provRoad.origin,
+                                    destination: provRoad.destination,
+                                    distance: provRoad.distance,
+                                    page: getPageNum()
+                                });
+
+                            }
+
+                            function post(URL, PARAMS) {
+                                var temp = document.createElement("form");
+                                temp.action = URL;
+                                temp.method = "post";
+                                temp.style.display = "none";
+                                for (var x in PARAMS) {
+                                    var opt = document.createElement("textarea");
+                                    opt.name = x;
+                                    opt.value = PARAMS[x];
+                                    temp.appendChild(opt);
+                                }
+                                document.body.appendChild(temp);
+                                temp.submit();
+                                return temp;
+                            }
+
+                            function updateProvRoad() {
+                                provRoad.id = document.getElementById("provRoadId").value;
+                                provRoad.ref = document.getElementById("provRoadRef").value;
+                                provRoad.name = document.getElementById("provRoadName").value;
+                                provRoad.origin = document.getElementById("provRoadOrigin").value;
+                                provRoad.destination = document.getElementById("provRoadDestination").value;
+                                provRoad.distance = document.getElementById("provRoadDistance").value;
+                            }
+                        </script>
+                        <button onclick="jumpModify()" type="button" class="btn btn-danger">
+                            确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--删除弹框-->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">警告</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <strong>确认删除？操作不可撤销</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <script>
+                            function jumpDelete() {
+                                var pageString = window.location.pathname.split("/");
+                                location = "/delete/" + deleteTarget + "?page=" + getPageNum();
+                            }
+                        </script>
+                        <button onclick="jumpDelete()" type="button" class="btn btn-danger">
+                            确认
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

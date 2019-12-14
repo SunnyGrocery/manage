@@ -1,6 +1,7 @@
 package top.sun1999.cotroller;
 
 import com.github.pagehelper.PageInfo;
+import com.sun.deploy.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,7 @@ import top.sun1999.dto.PageInfoDTO;
 import top.sun1999.model.ProvRoad;
 import top.sun1999.service.ProvRoadService;
 
-import javax.jws.WebParam;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -47,17 +48,16 @@ public class SearchController {
      * @param word     搜索字
      * @return
      */
-    @PostMapping({"search/{property}/{page}", "search/{property}"})
+    @PostMapping({"/search/{property}/{page}", "search/{property}"})
     public String doSearch(@PathVariable(value = "property") String property,
-                           @RequestParam(value = "word") String word) {
+                           @RequestParam(value = "word") String word) throws UnsupportedEncodingException {
         if (!isRightProperty(property)) {
             return "redirect:/info/";
         }
         if (word == null || word.trim().equals("")) {
             return "redirect:/search/" + property;
         }
-
-        return "redirect:/search_info/1?property=" + property + "&word=" + word;
+        return "redirect:/search_info/1?property=" + property + "&word=" + URLEncoder.encode(word, "UTF-8");
     }
 
     /**
@@ -68,16 +68,18 @@ public class SearchController {
      * @param word     查询信息
      * @return
      */
-    @GetMapping("search_info/{page}")
+    @GetMapping("/search_info/{page}")
     public String searchInfo(@PathVariable(value = "page") Integer pageNum,
                              @RequestParam(value = "property") String property,
                              @RequestParam(value = "word") String word,
-                             Model model) {
+                             Model model) throws UnsupportedEncodingException {
         List<ProvRoad> provRoadList = provRoadService.findPageByProperty(property, word, pageNum, 15);
         PageInfoDTO pageInfoDTO = PageInfoDTO.of(PageInfo.of(provRoadList));
         model.addAttribute("provRoadList", provRoadList);
         model.addAttribute("pageInfo", pageInfoDTO);
-        model.addAttribute("target", "search/ " + property);
+        model.addAttribute("word", word);
+        model.addAttribute("target", "search_info/");
+        model.addAttribute("endParam", "?property=" + property + "&word=" + URLEncoder.encode(word, "UTF-8"));
         return "search_info";
     }
 
@@ -85,6 +87,7 @@ public class SearchController {
 
     /**
      * 验证列名参数是否正确
+     *
      * @param property
      * @return
      */

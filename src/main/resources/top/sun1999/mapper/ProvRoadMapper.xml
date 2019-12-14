@@ -15,27 +15,31 @@
     </select>
     <!--    List<ProvRoad> selectLikeRef(String ref);-->
     <select id="selectLikeRef" resultType="ProvRoad">
+        <bind name="pattern" value="'%' + ref + '%'"/>
         select *
         from PROV_ROAD
-        where REF like "%"#{ref}"%"
+        where REF like #{pattern}
     </select>
     <!--    List<ProvRoad> selectLikeName(String name);-->
     <select id="selectLikeName" resultType="ProvRoad">
+        <bind name="pattern" value="'%' + name + '%'"/>
         select *
         from PROV_ROAD
-        where NAME like "%"#{name}"%"
+        where NAME like #{pattern}
     </select>
     <!--    List<ProvRoad> selectLikeOrigin(String origin);-->
     <select id="selectLikeOrigin" resultType="ProvRoad">
+        <bind name="pattern" value="'%' + origin + '%'"/>
         select *
         from PROV_ROAD
-        where ORIGIN like "%"#{origin}"%"
+        where ORIGIN like #{pattern}
     </select>
     <!--    List<ProvRoad> selectLikeDestination(String destination);-->
     <select id="selectLikeDestination" resultType="ProvRoad">
+        <bind name="pattern" value="'%' + destination + '%'"/>
         select *
         from PROV_ROAD
-        where DESTINATION like "%"#{destination}"%"
+        where DESTINATION like #{pattern}
     </select>
 
     <!--    void updateById(ProvRoad provRoad);-->
@@ -50,9 +54,6 @@
             </if>
             <if test="origin!=null and origin!=''">
                 origin = #{origin},
-            </if>
-            <if test="destination!=null and destination!=''">
-                destination = #{destination},
             </if>
             <if test="destination!=null and destination!=''">
                 destination = #{destination},

@@ -4,11 +4,15 @@ spring:
     username: sa
     password: SA
     driver-class-name: org.h2.Driver
+  thymeleaf:
+    encoding: UTF-8
+    cache: true
 logging:
   level:
-    com.sust.community.mapper: debug
+    top.sun1999.mapper: debug
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: true
   type-aliases-package: top.sun1999.model
+

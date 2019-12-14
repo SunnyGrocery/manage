@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.sun1999.model.ProvRoad;
 
+import java.util.Random;
+
 /**
  * Created by SunnyGrocery on 2019/12/13 11:35
  */
@@ -28,8 +30,16 @@ class ProvRoadMapperTest {
 
     @Test
     void insert() {
-        ProvRoad provRoad = new ProvRoad(null, "testRef", "testName", "testOrigin", "testDest", 20);
-        provRoadMapper.insert(provRoad);
-        System.err.println(provRoad);
+        Random random = new Random();
+
+        for (int i = 1; i <= 200; i++) {
+            ProvRoad provRoad = new ProvRoad(null, "testRef" + i, "testName" + i, "testOrigin" + i, "testDest" + i, random.nextInt(300));
+            provRoadMapper.insert(provRoad);
+        }
+    }
+
+    @Test
+    void de() {
+
     }
 };

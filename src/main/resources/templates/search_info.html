@@ -12,67 +12,58 @@
 <body>
 <!--标题-->
 <div th:replace="~{sub-nav::head}"></div>
-<div>
-    <div class="alert alert-success" role="alert">
-        <strong>以下是搜索结果：</strong>
-        <a href="/info/" class="alert-link">点击返回首页</a>.
+<div class="table-margin">
+    <div class="alert alert-info search-alert " role="alert">
+        <span>以下是</span>
+        <strong th:text=" ${word} "></strong>
+        <span>在</span>
+        <strong th:if="${'search/ref'== target }" th:text="路线编号"></strong>
+        <strong th:if="${'search/name'== target }" th:text="路线简称"></strong>
+        <strong th:if="${'search/origin'== target }" th:text="起始点"></strong>
+        <strong th:if="${'search/destination'== target }" th:text="终点"></strong>
+        <span>下的搜索结果：</span>
+        <a href="/info/" class="alert-link search-alert-a">返回首页
+            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        </a>
     </div>
-</div>
-<!--表格-->
-<div class="my-table">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>
-                路线编号
-                <a class="table-search" href="/search/ref">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </a>
-            </th>
-            <th>路线简称
-                <a class="table-search" href="/search/name">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </a>
-            </th>
-            <th>起始点
-                <a class="table-search" href="/search/origin">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </a>
-            </th>
-            <th>终点
-                <a class="table-search" href="/search/destination">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </a>
-            </th>
-            <th>里程</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each=" item : ${provRoadList}">
-            <th th:text="${item.id}" scope="row"></th>
-            <td th:text="${item.ref}"></td>
-            <td th:text="${item.name}"></td>
-            <td th:text="${item.origin}"></td>
-            <td th:text="${item.destination}"></td>
-            <td th:text="${item.distance+' km'}"></td>
-            <td>
-                <div>
-                    <a href="#">编辑</a>&nbsp;&nbsp;
-                    <a href="#">删除</a>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <!--表格-->
+    <div th:replace="~{sub-table::table}"></div>
 </div>
 <hr>
 <div>
     <div class="col-xs-0 col-sm-2 col-md-3 col-lg-4  ">
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4  ">
-        <div th:replace="~{sub-nav::pages}"></div>
+        <nav th:if="${pageInfo.getPageHelpInfo().getPages()>1}" class="page-nav" aria-label="Page navigation">
+            <ul class="pagination">
+                <li th:if="${pageInfo.showFirst}">
+                    <a th:href="${'/' + target + '/' + 1 +endParam}" aria-label="First">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                    </a>
+                </li>
+                <li th:if="${pageInfo.showPre}">
+                    <a th:href="${'/' + target + '/' + pageInfo.getPageHelpInfo().getPrePage()+endParam}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+
+                <li th:each="page : ${pageInfo.pages}" th:classappend="${page==pageInfo.currentPage}?'active'">
+                    <a th:href="${'/' + target + '/' + page +endParam}" th:text="${page}"></a>
+                </li>
+
+                <li th:if="${pageInfo.showNext}">
+                    <a th:href="${'/' + target + '/' + pageInfo.pageHelpInfo.getNextPage()+endParam}" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li th:if="${pageInfo.showEnd}">
+                    <a th:href="${'/' + target + '/' + pageInfo.pageHelpInfo.getPages()+endParam}" aria-label="End">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
     <div class="col-xs-0 col-sm-2 col-md-3 col-lg-4  ">
     </div>
