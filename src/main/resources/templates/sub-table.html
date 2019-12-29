@@ -22,7 +22,7 @@
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 </a>
             </th>
-            <th>路线简称
+            <th>路线名称
                 <a class="table-icon" href="/search/name">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 </a>
@@ -91,7 +91,7 @@
                                        placeholder="不能为空...">
                             </div>
                             <div class="form-group">
-                                <label for="provRoadNameAdd">路线简称</label>
+                                <label for="provRoadNameAdd">路线名称</label>
                                 <input name="name" type="text" class="form-control" id="provRoadNameAdd"
                                        placeholder="不能为空...">
                             </div>
@@ -112,30 +112,10 @@
                             </div>
                         </form>
                     </div>
-                    <script>
-                        function jumpAdd() {
-                            UpdateProvRoadAdd();
-                            post('/add', {
-                                ref: provRoad.ref,
-                                name: provRoad.name,
-                                origin: provRoad.origin,
-                                destination: provRoad.destination,
-                                distance: provRoad.distance
-                            });
-                        }
-
-                        function UpdateProvRoadAdd() {
-                            provRoad.ref = document.getElementById("provRoadRefAdd").value;
-                            provRoad.name = document.getElementById("provRoadNameAdd").value;
-                            provRoad.origin = document.getElementById("provRoadOriginAdd").value;
-                            provRoad.destination = document.getElementById("provRoadDestinationAdd").value;
-                            provRoad.distance = document.getElementById("provRoadDistanceAdd").value;
-                        }
-                    </script>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 
-                        <button onclick="jumpAdd()" type="button" class="btn btn-danger">
+                        <button onclick="jumpAdd()" type="button" class="btn btn-primary">
                             确认
                         </button>
                     </div>
@@ -159,7 +139,7 @@
                                        placeholder="不能为空...">
                             </div>
                             <div class="form-group">
-                                <label for="provRoadName">路线简称</label>
+                                <label for="provRoadName">路线名称</label>
                                 <input name="name" type="text" class="form-control" id="provRoadName"
                                        placeholder="不能为空...">
                             </div>
@@ -181,11 +161,10 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-
-                        <button onclick="jumpModify()" type="button" class="btn btn-danger">
+                        <button onclick="jumpModify()" type="button" class="btn btn-primary">
                             确认
                         </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>
@@ -207,10 +186,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button onclick="jumpDelete()" type="button" class="btn btn-danger">
                             确认
                         </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>

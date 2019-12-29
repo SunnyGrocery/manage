@@ -77,3 +77,22 @@ function jumpDelete() {
     var pageString = window.location.pathname.split("/");
     location = "/delete/" + deleteTarget + "?page=" + getPageNum();
 }
+
+function jumpAdd() {
+    UpdateProvRoadAdd();
+    post('/add', {
+        ref: provRoad.ref,
+        name: provRoad.name,
+        origin: provRoad.origin,
+        destination: provRoad.destination,
+        distance: provRoad.distance
+    });
+}
+
+function UpdateProvRoadAdd() {
+    provRoad.ref = document.getElementById("provRoadRefAdd").value;
+    provRoad.name = document.getElementById("provRoadNameAdd").value;
+    provRoad.origin = document.getElementById("provRoadOriginAdd").value;
+    provRoad.destination = document.getElementById("provRoadDestinationAdd").value;
+    provRoad.distance = document.getElementById("provRoadDistanceAdd").value;
+}

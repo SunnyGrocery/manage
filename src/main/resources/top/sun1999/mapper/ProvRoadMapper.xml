@@ -82,9 +82,7 @@
         </if>
         <if test="distance!=null and distance!=''">
             DISTANCE
-        </if>
-        )
-        values (
+        </if>)values (
         <if test="name!=null and name!=''">
             #{name},
         </if>

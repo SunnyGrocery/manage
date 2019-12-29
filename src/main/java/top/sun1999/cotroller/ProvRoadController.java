@@ -1,6 +1,7 @@
 package top.sun1999.cotroller;
 
 import com.github.pagehelper.PageInfo;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.sun1999.dto.PageInfoDTO;
+import top.sun1999.interceptor.ROOT;
 import top.sun1999.model.ProvRoad;
 import top.sun1999.service.ProvRoadService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -22,14 +26,40 @@ import java.util.List;
 public class ProvRoadController {
     @Autowired
     ProvRoadService provRoadService;
+    @Autowired
+    ROOT root;
 
     private static String[] operateFlags = {"delete", "modify", "add"};
+
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping(value = "/login")
+    public String doLogin(@RequestParam(value = "name") String name,
+                          @RequestParam(value = "password") String password,
+                          HttpServletResponse response, Model model) {
+        if (root.rootName.equals(name)) {
+            if (root.rootPassword.equals(password)) {
+                response.addCookie(new Cookie(ROOT.COOKIE_ID, ROOT.COOKIE_VALUE));
+
+                return "redirect:/info";
+            } else {
+                model.addAttribute("errorMsg", "pwd");
+            }
+        } else {
+            model.addAttribute("errorMsg", "name");
+        }
+        return "login";
+    }
 
     @GetMapping(value = {"/", "/info", "/info/{page}"})
     public String index(@PathVariable(value = "page", required = false) Integer pageNum,
                         @RequestParam(value = "operateFlag", required = false) String operateFlag,
                         @RequestParam(value = "status", required = false) Boolean status,
                         Model model) {
+
         if (pageNum == null) {
             pageNum = 1;
         }

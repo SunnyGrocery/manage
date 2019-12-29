@@ -17,7 +17,7 @@ public class CustomizeExceptionHandler {
      * 即当Controller中传入错误的PathVariable无法类型转换时，将其处理为404错误
      */
     @ExceptionHandler(BindingException.class)
-    public String methodArgumentTypeMismatchExceptionHandel(Model model) {
+    public String methodArgumentTypeMismatchExceptionHandel(MethodArgumentTypeMismatchException e, Model model) {
         model.addAttribute("msg", MsgUtil.someThingWrong(PageEnum.PAGE_NUM_NOT_FOUND.getMsg()));
         return "error";
     }
