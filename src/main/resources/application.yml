@@ -9,16 +9,16 @@ spring:
   thymeleaf:
     encoding: UTF-8
     cache: true
-logging:
-  level:
-    top.sun1999.mapper: debug
+#logging:
+#  level:
+#    top.sun1999.mapper: debug
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: true
   type-aliases-package: top.sun1999.model
 server:
-  port: 8080
+  port: 80
 configure:
   name: root
   password: 123456
