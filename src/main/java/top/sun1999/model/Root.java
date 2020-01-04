@@ -1,4 +1,4 @@
-package top.sun1999.interceptor;
+package top.sun1999.model;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 @Component
 @Getter
-public class ROOT {
+public class Root {
     public final static String COOKIE_ID;
     public final static String COOKIE_VALUE;
     @Value("${configure.name}")

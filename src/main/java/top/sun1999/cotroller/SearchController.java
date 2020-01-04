@@ -78,7 +78,8 @@ public class SearchController {
         model.addAttribute("provRoadList", provRoadList);
         model.addAttribute("pageInfo", pageInfoDTO);
         model.addAttribute("word", word);
-        model.addAttribute("target", "search_info/");
+        model.addAttribute("target", "search/" + property);
+        model.addAttribute("pageTarget", "search_info/");
         model.addAttribute("endParam", "?property=" + property + "&word=" + URLEncoder.encode(word, "UTF-8"));
         return "search_info";
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head>
-    <title>搜索结果：</title>
+    <title>搜索结果</title>
     <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/my.js" type="application/javascript"></script>
@@ -37,28 +37,28 @@
         <nav th:if="${pageInfo.getPageHelpInfo().getPages()>1}" class="page-nav" aria-label="Page navigation">
             <ul class="pagination">
                 <li th:if="${pageInfo.showFirst}">
-                    <a th:href="${'/' + target + '/' + 1 +endParam}" aria-label="First">
+                    <a th:href="${'/' + pageTarget + '/' + 1 +endParam}" aria-label="First">
                         <span aria-hidden="true">&lt;&lt;</span>
                     </a>
                 </li>
                 <li th:if="${pageInfo.showPre}">
-                    <a th:href="${'/' + target + '/' + pageInfo.getPageHelpInfo().getPrePage()+endParam}"
+                    <a th:href="${'/' + pageTarget + '/' + pageInfo.getPageHelpInfo().getPrePage()+endParam}"
                        aria-label="Previous">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
 
                 <li th:each="page : ${pageInfo.pages}" th:classappend="${page==pageInfo.currentPage}?'active'">
-                    <a th:href="${'/' + target + '/' + page +endParam}" th:text="${page}"></a>
+                    <a th:href="${'/' + pageTarget + '/' + page +endParam}" th:text="${page}"></a>
                 </li>
 
                 <li th:if="${pageInfo.showNext}">
-                    <a th:href="${'/' + target + '/' + pageInfo.pageHelpInfo.getNextPage()+endParam}" aria-label="Next">
+                    <a th:href="${'/' + pageTarget + '/' + pageInfo.pageHelpInfo.getNextPage()+endParam}" aria-label="Next">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>
                 <li th:if="${pageInfo.showEnd}">
-                    <a th:href="${'/' + target + '/' + pageInfo.pageHelpInfo.getPages()+endParam}" aria-label="End">
+                    <a th:href="${'/' + pageTarget + '/' + pageInfo.pageHelpInfo.getPages()+endParam}" aria-label="End">
                         <span aria-hidden="true">&gt;&gt;</span>
                     </a>
                 </li>

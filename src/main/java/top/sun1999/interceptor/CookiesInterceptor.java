@@ -3,6 +3,7 @@ package top.sun1999.interceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import top.sun1999.model.Root;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +29,8 @@ public class CookiesInterceptor implements HandlerInterceptor {
         if (request.getCookies() != null) {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
-                if (ROOT.COOKIE_ID.equals(cookie.getName())) {
-                    if (ROOT.COOKIE_VALUE.equals(cookie.getValue())) {
+                if (Root.COOKIE_ID.equals(cookie.getName())) {
+                    if (Root.COOKIE_VALUE.equals(cookie.getValue())) {
                         return true;
                     }
                 }
